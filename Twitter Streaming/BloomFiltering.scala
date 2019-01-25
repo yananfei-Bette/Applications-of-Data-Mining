@@ -35,14 +35,15 @@ object BloomFiltering {
       .setMaster("local[2]")
       .set("spark.driver.host", "localhost")
     val sc = new SparkContext(sparkConf)
+
     // Set the level of the log to OFF to eliminate the extra message
     sc.setLogLevel(logLevel = "OFF")
 
     ////////////// twitter key and token /////////
-    val consumerKey = "RWHLtrmkWrrhGW1Ob891qKAsa"
-    val consumerSecret = "CVjM4uq9IPqcS648AaaHvUtGQlJKM53citovV9wUofxesPGjZr"
-    val accessToken = "828400071754407937-D1xLL3WRVrV1KzgqbSO58AcMTVJ9yXF"
-    val accessTokenSecrect = "N8hVX0VpF7gQZrdlu4wAx5gNzZGTlSVPPV3f7lYf56Ge3"
+    val consumerKey = "XXXXXXXXXXXXXXX"
+    val consumerSecret = "XXXXXXXXXXXXXXX"
+    val accessToken = "XXXXXXXXXXXXXXX"
+    val accessTokenSecrect = "XXXXXXXXXXXXXXX"
 
     System.setProperty("twitter4j.oauth.consumerKey", consumerKey)
     System.setProperty("twitter4j.oauth.consumerSecret", consumerSecret)
@@ -64,15 +65,11 @@ object BloomFiltering {
         var isExist = 1
         // check exist by BF
         for (i <- 0 until numHash) {
-          // println("***************** test1 *****************")
-          // https://stackoverflow.com/questions/33219638/how-to-make-a-hashcodeinteger-value-positive
           val ind = (MH3.stringHash(item, hashSeeds(i)) & 0xfffffff) % width
-          // println("***************** test2 *****************")
+
           indexes = ind +: indexes
-          // println("***************** test3 *****************")
-          // println(ind)
+
           isExist &= bits(ind)
-          // println("***************** test4 *****************")
         }
         if ((isExist == 1 && memory.contains(item))
           || (isExist != 1 && !memory.contains(item))) {
